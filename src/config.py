@@ -14,6 +14,10 @@ DEFAULT_CONFIG = {
     # so one calibration keeps working across window moves/resizes at the
     # same aspect ratio.
     "regions": [],
+    # Same format, but these mark button zones (Play/Next/Replay/scenario
+    # list) - clicking inside one ends the post-run results-visible window
+    # immediately instead of waiting out the fallback timeout.
+    "trigger_regions": [],
 }
 
 
@@ -51,6 +55,14 @@ class ConfigManager:
 
     def set_regions(self, regions):
         self.data["regions"] = regions
+        self.save()
+
+    @property
+    def trigger_regions(self):
+        return self.data.get("trigger_regions", [])
+
+    def set_trigger_regions(self, trigger_regions):
+        self.data["trigger_regions"] = trigger_regions
         self.save()
 
     @property

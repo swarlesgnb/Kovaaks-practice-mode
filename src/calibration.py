@@ -2,16 +2,25 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 
 
 class CalibrationOverlay(QtWidgets.QWidget):
-    """Full-client-area overlay for drag-selecting the score regions to cover.
+    """Full-client-area overlay for drag-selecting regions - reused both for
+    score regions to cover and for button zones (Play/Next/Replay) that end
+    the results-visible window when clicked.
 
     Enter = save regions, Ctrl+Z = undo last box, Esc = cancel (clears regions).
     """
 
     finished = QtCore.pyqtSignal(list)  # list of {x, y, w, h} fractions
 
-    def __init__(self, client_rect):
+    def __init__(
+        self,
+        client_rect,
+        prompt="Drag boxes over the score / high-score areas. Enter = save, Ctrl+Z = undo, Esc = cancel",
+        accent_color=(80, 220, 140),
+    ):
         super().__init__()
         self.client_x, self.client_y, self.client_w, self.client_h = client_rect
+        self.prompt = prompt
+        self.accent_color = accent_color
 
         self.setWindowFlags(
             QtCore.Qt.WindowType.FramelessWindowHint
@@ -76,18 +85,16 @@ class CalibrationOverlay(QtWidgets.QWidget):
         self.close()
 
     def paintEvent(self, event):
+        r, g, b = self.accent_color
         painter = QtGui.QPainter(self)
         painter.fillRect(self.rect(), QtGui.QColor(0, 0, 0, 90))
-        painter.setPen(QtGui.QPen(QtGui.QColor(80, 220, 140), 2))
-        painter.setBrush(QtGui.QColor(80, 220, 140, 60))
-        for r in self.rects:
-            painter.drawRect(r)
+        painter.setPen(QtGui.QPen(QtGui.QColor(r, g, b), 2))
+        painter.setBrush(QtGui.QColor(r, g, b, 60))
+        for rect in self.rects:
+            painter.drawRect(rect)
         if self.current_rect:
             painter.drawRect(self.current_rect)
 
         painter.setPen(QtGui.QColor(255, 255, 255))
-        painter.drawText(
-            20, 30,
-            "Drag boxes over the score / high-score areas. Enter = save, Ctrl+Z = undo, Esc = cancel",
-        )
+        painter.drawText(20, 30, self.prompt)
         painter.end()
