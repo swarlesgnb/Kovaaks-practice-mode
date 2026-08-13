@@ -76,7 +76,7 @@ class MainWindow(QtWidgets.QWidget):
         title.setObjectName("title")
         layout.addWidget(title)
 
-        subtitle = QtWidgets.QLabel("Hide your score, high score, and rank so a session is about improving, not chasing a number.")
+        subtitle = QtWidgets.QLabel("Hide your score, high score, and rank.")
         subtitle.setObjectName("subtitle")
         subtitle.setWordWrap(True)
         layout.addWidget(subtitle)
@@ -122,16 +122,16 @@ class MainWindow(QtWidgets.QWidget):
         layout.addWidget(sep2)
 
         banner = QtWidgets.QLabel(
-            "KovaaK's must be set to Windowed Fullscreen (not Fullscreen), or Windows "
-            "will hide the cover boxes. In KovaaK's: Settings → Video → Display Mode."
+            "KovaaK's must be set to Windowed Fullscreen or Windows(NOT Fullscreen - working on this)"
+            "Fullscreen will hide the cover boxes. In KovaaK's: Settings → Video → Display Mode."
         )
         banner.setObjectName("banner")
         banner.setWordWrap(True)
         layout.addWidget(banner)
 
         footer = QtWidgets.QLabel(
-            f"Hotkey: {self.config.hotkey}  •  Closing this window keeps running in the "
-            "system tray — right-click the tray icon to Quit."
+            f"Hotkey: {self.config.hotkey}  •  Closing this window does NOT fully close the app."
+            "Right click the icon in your system tray (bottom right up arrow) to fully exit session."
         )
         footer.setObjectName("footer")
         footer.setWordWrap(True)
@@ -146,7 +146,7 @@ class MainWindow(QtWidgets.QWidget):
         enabled = self.config.practice_mode_enabled
         self.toggle_button.setObjectName("toggleOn" if enabled else "toggleOff")
         self.toggle_button.setText(
-            "Practice Mode is ON — scores hidden" if enabled else "Turn Practice Mode ON"
+            "You're absolutely LOCKED (scores hidden)" if enabled else "Turn Practice Mode ON"
         )
         # Re-polish so the new objectName's stylesheet rule takes effect.
         self.toggle_button.style().unpolish(self.toggle_button)
@@ -154,7 +154,7 @@ class MainWindow(QtWidgets.QWidget):
 
         count = len(self.config.regions)
         self.regions_label.setText(
-            "No regions calibrated yet — practice mode won't hide anything until you calibrate."
+            "No regions calibrated yet. Practice mode won't hide anything until you calibrate."
             if count == 0
             else f"{count} region{'s' if count != 1 else ''} calibrated."
         )

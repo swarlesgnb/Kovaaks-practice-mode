@@ -29,7 +29,7 @@ class OverlayWindow(QtWidgets.QWidget):
         self.timer.start(50)
 
         # A single HWND_TOPMOST call loses to KovaaK's own z-order
-        # reassertion the moment it's the active fullscreen window — Windows
+        # reassertion the moment it's the active fullscreen window. Windows
         # appears to keep it in an optimized presentation mode that steady,
         # low-frequency reassertion can't break. A short, rapid burst right
         # when the overlay becomes visible reliably knocks it out of that

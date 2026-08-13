@@ -50,7 +50,7 @@ class TrayController(QtCore.QObject):
         self.tray.setIcon(build_icon(value))
         self.tray.showMessage(
             "KovaaK's Practice Mode",
-            "Practice Mode ON — scores hidden" if value else "Practice Mode OFF — scores visible",
+            "Practice Mode ON (scores hidden)" if value else "Practice Mode OFF (scores visible)",
             QtWidgets.QSystemTrayIcon.MessageIcon.Information,
             1500,
         )
